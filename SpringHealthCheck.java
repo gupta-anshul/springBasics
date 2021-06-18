@@ -1,16 +1,18 @@
-package codility;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpHeaders;
+package com.amex.ea.example.spring.codility;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 /*
 Implement a simple Spring boot API.
 You are given a Spring MVC application and your task is to build new RESTful web service.
@@ -41,9 +43,9 @@ Other requirements and hints
 Spring Web MVC (v. 5.0.7.RELEASE)
 FasterXML Jackson, Jackson Datatype JSR310 (v. 2.9.6)
  */
+@RestController
 public class SpringHealthCheck {
-  @RestController
-  class HealthcheckController {
+
     private HttpHeaders getResponseHeaders() {
       final HttpHeaders responseHeaders = new HttpHeaders();
       responseHeaders.set("Content-Type", "application/json");
@@ -62,7 +64,7 @@ public class SpringHealthCheck {
     }
   }
 
-  class FormatsProvider {
+   class FormatsProvider {
     public static List<Format> getAllFormats() {
       return Arrays.asList(new FormatShort(), new FormatFull());
     }
@@ -72,7 +74,7 @@ public class SpringHealthCheck {
     public String getOutput();
   }
 
-  class FormatShort implements Format {
+   class FormatShort implements Format {
     private static final String NAME = "short";
 
     @Override
@@ -86,7 +88,7 @@ public class SpringHealthCheck {
     }
   }
 
-  class FormatFull implements Format {
+   class FormatFull implements Format {
     private static final String NAME = "full";
     private static final String UTC = "UTC";
     private TimeProvider timeProvider = new TimeProvider(UTC);
@@ -98,11 +100,11 @@ public class SpringHealthCheck {
 
     @Override
     public String getOutput() {
-      return "{\"currentTime\": \"" + timeProvider.getCurrentTimeISO() + "\", \"application\": \"OK\" } ";
+      return "{\"currentTime\": \"" + timeProvider.getCurrentTimeISO() + "\", \"status\": \"OK\" } ";
     }
   }
 
-  class TimeProvider {
+   class TimeProvider {
     private static final String ISO_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     private String timeZone;
 
@@ -121,4 +123,4 @@ public class SpringHealthCheck {
       return dateFormat.format(new Date());
     }
   }
-}
+
